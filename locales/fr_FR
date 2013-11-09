@@ -1,0 +1,20 @@
+
+### Controller: Page
+
+# View: error404
+PAGE_ERROR404_TITLE
+	Erreur 404
+PAGE_ERROR404_MESSAGE
+	Page introuvable !
+
+# View: error
+PAGE_ERROR_TITLE
+	Erreur
+PAGE_ERROR_MESSAGE
+	Une erreur est survenue, l'équipe de développement en a été avertie.<br />
+	Merci de bien vouloir revenir plus tard.
+
+### Controller: Sign
+
+BAD_USER
+    Vérifiez l'identifiant et/ou le mot de passe saisie
