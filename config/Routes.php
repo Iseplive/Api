@@ -26,16 +26,27 @@ final class Routes extends RoutesAbstract {
 	 * @static array
 	 */
 	protected static $routes =	array(
-		// Sign-in
+    'posts' => array(
+        'regexp' => '^posts/([1-9][0-9]*)(?=\?|$)',
+        'vars'   => 'controller=Post&action=index_ajax&page=$1&mode=json&method=GET',
+        'url'    => 'posts/{page}'
+    ),
+      // Sign-in
 		'signin'	  => array(
 			'regexp'	=> '^signin$',
-			'vars'		=> 'controller=Sign&action=signin&mode=json&method=POST',
+			'vars'		=> 'controller=User&action=signin&mode=json&method=POST',
 			'url'		  => 'signin',
+		),
+    // Student profile
+    'student'	  => array(
+			'regexp'	=> '^student$',
+			'vars'		=> 'controller=Student&action=view&method=GET',
+			'url'		  => 'student'
 		),
     // log out
 		'logout'	  => array(
 			'regexp'	=> '^logout$',
-			'vars'		=> 'controller=Sign&action=logout&mode=json&method=GET',
+			'vars'		=> 'controller=User&action=logout&mode=json&method=GET',
 			'url'		  => 'logout'
 		),
 	);

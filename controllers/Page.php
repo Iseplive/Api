@@ -68,7 +68,6 @@ class Page_Controller extends Controller {
 					'message' => __($errorType->getMessage())
 			);
 			header($this->http[$errorType->getCode()]);
-      header('Content-Type: application/json; charset=utf-8');
 			echo json_encode($output);
 		}
 		else{
