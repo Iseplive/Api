@@ -1,68 +1,33 @@
 <?php
 
 class Student_Controller extends Controller {
-	
+
 	/**
 	 * List of the students
 	 */
 	public function index($params){
-		$this->setView('index.php');
-		$this->setTitle(__('STUDENTS_TITLE'));
-		
-		$is_logged = isset(User_Model::$auth_data);
-		if(!$is_logged)
-			throw new ActionException('User', 'signin', array('redirect' => $_SERVER['REQUEST_URI']));
-		
-		$last_promo = ((int) date('Y')) + 5;
-		if((int) date('m') < 9)
-			$last_promo -= 1;
-		
-		$students = $this->model->getAllByPromos($last_promo, $last_promo-1, $last_promo-2, $last_promo-3, $last_promo-4);
-		
-		$this->set(array(
-			'students'		=> $students,
-			'last_promo'	=> $last_promo
-		));
-				
-		$this->addJSCode('
-			Admin.loadjscssfile("'.Config::URL_STATIC.'css/jqx.base.css","css");
-			Admin.loadjscssfile("'.Config::URL_STATIC.'js/jqx/jqxcore.js","js");
-			Admin.loadjscssfile("'.Config::URL_STATIC.'js/jqx/jqxbuttons.js","js");
-			Admin.loadjscssfile("'.Config::URL_STATIC.'js/jqx/jqxslider.js","js");
-			Student.slider();
-		');
-		
+    if (preg_match('/^\d{4}$/', $params['promo'])) {
+      echo json_encode($this->model->getAllByPromos($params['promo']));
+    } else {
+      $last_promo = ((int) date('Y')) + 5;
+      if((int) date('m') < 9)
+        $last_promo -= 1;
+
+      echo json_encode($this->model->getAllByPromos($last_promo, $last_promo-1, $last_promo-2, $last_promo-3, $last_promo-4));
+    }
 	}
-	
-	
+
 	/**
 	 * Show the profile of a student
 	 */
-	public function view($params){				
-    echo json_encode($this->model->getInfo(User_Model::$auth_data['username']));
+	public function view($params){
+    if (isset($params['username'])) {
+      echo json_encode($this->model->getInfo($params['username']));
+    } else {
+      echo json_encode($this->model->getInfo(User_Model::$auth_data['username']));
+    }
 	}
-	
-	
-	/**
-	 * Autocomplete the firstname / lastname of a student
-	 *//*
-	public function autocomplete($params){
-		$this->setView('autocomplete.php');
-		
-		// If the user isn't logged in
-		if(!isset(User_Model::$auth_data))
-			throw new Exception('You must be logged');
-		
-		if(!isset($_GET['q']))
-			throw new Exception('Query parameter "q" not set');
-		
-		$limit = isset($_GET['limit']) && ctype_digit($_GET['limit']) ? (int) $_GET['limit'] : 10;
-		
-		$this->set('students', $this->model->autocomplete($_GET['q'], $limit));
-		
-	}*/
-	
-	
+
 	/**
 	 * Edit a user
 	 */

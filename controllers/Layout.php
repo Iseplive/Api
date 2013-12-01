@@ -8,6 +8,10 @@ class Layout_Controller extends Controller {
       $user_model = new User_Model();
       User_Model::$auth_status = User_Model::AUTH_STATUS_NOT_LOGGED;
       $route = Routes::getVars(preg_replace('#^'.preg_quote(Config::URL_ROOT).'#', '', urldecode($_SERVER['REQUEST_URI'])));
+      
+      if(isset($route['isPublic']) && $route['isPublic']) {
+        return;
+      }
       //Authentication by session
 			if(($username = Session::read('username')) !== null){
 				try {
@@ -15,9 +19,10 @@ class Layout_Controller extends Controller {
 					User_Model::$auth_status = User_Model::AUTH_STATUS_LOGGED;
 				}catch(Exception $e){
 					Session::delete('username');
-					Cookie::delete('mLogin');
+					//Cookie::delete('mLogin');
 				}
-      } else if(isset($_COOKIE['mLogin'])){
+      } /*
+      else if(isset($_COOKIE['mLogin'])){
 				try {
           $login = $_COOKIE['mLogin'];
           
@@ -46,7 +51,7 @@ class Layout_Controller extends Controller {
 					Cookie::delete('mLogin');
 				}
       } else if (!isset($_COOKIE['mLogin']) && $route["controller"] === "User" && $route["action"] === "signin") {
-      } else {
+      } */else {
         header('HTTP/1.1 401 Unauthorized');
         throw new Exception();
       }

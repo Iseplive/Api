@@ -28,25 +28,37 @@ final class Routes extends RoutesAbstract {
 	protected static $routes =	array(
     'posts' => array(
         'regexp' => '^posts/([1-9][0-9]*)(?=\?|$)',
-        'vars'   => 'controller=Post&action=index_ajax&page=$1&mode=json&method=GET',
+        'vars'   => 'controller=Post&action=index_ajax&page=$1&method=GET',
         'url'    => 'posts/{page}'
     ),
       // Sign-in
 		'signin'	  => array(
 			'regexp'	=> '^signin$',
-			'vars'		=> 'controller=User&action=signin&mode=json&method=POST',
+			'vars'		=> 'controller=User&action=signin&method=POST&isPublic=true',
 			'url'		  => 'signin',
 		),
-    // Student profile
-    'student'	  => array(
-			'regexp'	=> '^student$',
+    // User profile
+    'profil'	  => array(
+			'regexp'	=> '^profil',
 			'vars'		=> 'controller=Student&action=view&method=GET',
-			'url'		  => 'student'
+			'url'		  => 'profil'
+		),
+     // Student profile
+    'student'	  => array(
+			'regexp'	=> '^student/([a-z0-9-]+)(?=\?|$)$',
+			'vars'		=> 'controller=Student&action=view&username=$1&method=GET',
+			'url'		  => 'student/{username}'
+		),
+    // Students' promo list
+		'students'	=> array(
+			'regexp'	=> '^students/((\d{4})|(all))(?=\?|$)',
+			'vars'		=> 'controller=Student&action=index&promo=$1&method=GET',
+			'url'     => 'students/{promo}'
 		),
     // log out
 		'logout'	  => array(
 			'regexp'	=> '^logout$',
-			'vars'		=> 'controller=User&action=logout&mode=json&method=GET',
+			'vars'		=> 'controller=User&action=logout&method=GET&isPublic=true',
 			'url'		  => 'logout'
 		),
 	);

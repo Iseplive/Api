@@ -17,7 +17,7 @@ class User_Controller extends Controller {
       if($user_model->authenticate($username, $password)){
         User_Model::$auth_status = User_Model::AUTH_STATUS_LOGGED;
         // Write session and cookie to remember sign-in
-        Cookie::write('mLogin', Encryption::encode($username.':'.$password), 1800);
+        //Cookie::write('mLogin', Encryption::encode($username.':'.$password), 1800);
         Session::write('username', $username);
         echo json_encode(array("cookie" => Encryption::encode($username.':'.$password), "username" => User_Model::$auth_data['username']));
       }else{
@@ -35,8 +35,7 @@ class User_Controller extends Controller {
 	 * Logout
 	 */
 	public function logout() {
-		Cookie::delete('mLogin');
-    Cookie::delete('login');
+		//Cookie::delete('mLogin');
 		Session::delete('username');
 	}
   
