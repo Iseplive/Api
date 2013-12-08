@@ -26,11 +26,18 @@ final class Routes extends RoutesAbstract {
 	 * @static array
 	 */
 	protected static $routes =	array(
+    // Home
     'posts' => array(
         'regexp' => '^posts/([1-9][0-9]*)(?=\?|$)',
         'vars'   => 'controller=Post&action=index_ajax&page=$1&method=GET',
         'url'    => 'posts/{page}'
     ),
+    // Post
+		'post'	=> array(
+			'regexp'	=> '^post/([0-9]+)(?=\?|$)',
+			'vars'		=> 'controller=Post&action=view&id=$1',
+			'url'		  => 'post/{id}'
+		),
       // Sign-in
 		'signin'	  => array(
 			'regexp'	=> '^signin$',
@@ -60,6 +67,23 @@ final class Routes extends RoutesAbstract {
 			'regexp'	=> '^logout$',
 			'vars'		=> 'controller=User&action=logout&method=GET&isPublic=true',
 			'url'		  => 'logout'
+		),
+    // Group's page
+    'group'	=> array(
+			'regexp'	=> '^association/([a-z0-9-]+)(?=\?|$)',
+			'vars'		=> 'controller=Group&action=view&group=$1',
+			'url'     => 'association/{group}'
+		),
+    'groups'	=> array(
+			'regexp'	=> '^associations(?=\?|$)',
+			'vars'		=> 'controller=Group&action=index',
+			'url'   	=> 'associations'
+		),
+    //Media's Liste
+		'media'	=> array(
+			'regexp'	=> '^media(?=\?|$)',
+			'vars'		=> 'controller=Media&action=index',
+			'url'		  => 'media'
 		),
 	);
 

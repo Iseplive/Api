@@ -1,44 +1,7 @@
 <?php
 
 class Post_Controller extends Controller {
-	
-	/*
-	 * Show the posts
-	 
-	public function index(){
-		$category_model = new Category_Model();
-		$this->set(array(
-			'categories'		=> $category_model->getAll(),
-			'current_category'	=> $category
-		));
 
-				// Non-official posts
-				'posts'			=> $this->model->getPosts(array(
-					'restricted'	=> true,
-					'official'		=> false,
-					'category_name'	=> $category,
-					'show_private'	=> $is_student
-				), Config::POST_DISPLAYED)
-
-		// Official posts
-		$this->set('official_posts', $this->model->getPosts(array(
-			'restricted'	=> true,
-			'official'		=> true,
-			'category_name'	=> $category,
-			'show_private'	=> $is_student
-		), Config::POST_DISPLAYED));
-
-		// Events
-		$event_model = new Event_Model();
-		$this->set(array(
-			'events' 			=> $event_model->getByMonth((int) date('Y'), (int) date('n'), array(
-				'official'			=> $is_logged ? null : true,
-				'show_private'		=> $is_student
-			)),
-			'calendar_month'	=> (int) date('n'),
-			'calendar_year'		=> (int) date('Y')
-		));
-	}*/
 	/*
 	 * Show the posts by Ajax
 	 */
@@ -61,74 +24,20 @@ class Post_Controller extends Controller {
 
     echo json_encode(array_merge($officials, $nonOfficials), JSON_HEX_TAG);
 	}
-//
-//	/*
-//	 * Show a post
-//	 */
-//	public function view($params){
-//		$this->setView('view.php');
-//		
-//		$is_logged = isset(User_Model::$auth_data);
-//		$is_student = $is_logged && isset(User_Model::$auth_data['student_number']);
-//		$is_admin = $is_logged && User_Model::$auth_data['admin']=='1';
-//		
-//		try {
-//			$post = $this->model->getPost((int) $params['id']);
-//			if(!$is_logged && $post['official'] == '0')
-//				throw new Exception('You must be logged');
-//			if(!$is_student && $post['private'] == '1')
-//				throw new Exception('You must be a student');
-//		}catch(Exception $e){
-//			throw new ActionException('Page', 'error404');
-//		}
-//		
-//		$this->set(array(
-//			'is_logged'		=> $is_logged,
-//			'is_student'	=> $is_student,
-//			'is_admin'		=> $is_admin,
-//			'groups_auth'	=> $is_logged ? Group_Model::getAuth() : array(),
-//			'post'			=> $post,
-//			'one_post'		=> true
-//		));
-//		
-//		if($is_logged)
-//			$this->set(array(
-//				'username'		=> User_Model::$auth_data['username']
-//			));
-//			
-//		if($is_student)
-//			$this->set(array(
-//				'firstname'		=> User_Model::$auth_data['firstname'],
-//				'lastname'		=> User_Model::$auth_data['lastname'],
-//				'avatar_url'	=> User_Model::$auth_data['avatar_url']
-//			));
-//		
-//		if($post['attachments_nb_photos'] != 0){
-//			$photos = array();
-//			foreach($post['attachments'] as $attachment){
-//				if(in_array($attachment['ext'], array('jpg', 'png', 'gif')))
-//					$photos[] = array(
-//						'id'	=> (int) $attachment['id'],
-//						'url'	=> $attachment['url']
-//					);
-//					if($post['category_id']==1){	
-//						$galleria[] = array(
-//							'thumb'	=> $attachment['thumb'],
-//							'image'	=> $attachment['url'],
-//							'id'	=> (int) $attachment['id'],
-//						);
-//					}
-//			}
-//			$this->addJSCode('Post.photos = '.json_encode($photos).';Post.photoDelete();');
-//			
-//			if($post['category_id']==1){		
-//				$this->addJSCode('Post.initGalleria('.json_encode($galleria).');');
-//			}
-//		}
-//		
-//	}
-//	
-//	
+
+	/*
+	 * Show a post
+	 */
+	public function view($params){
+		try {
+			$post = $this->model->getPost((int) $params['id']);
+      $post['description'] = Text::inHTML($post['message']);
+      echo json_encode($post);
+		}catch(Exception $e){
+			throw new Exception(__('BAD_POST'), 404);
+		}
+	}
+
 //	/*
 //	 * Show a post with events of a day
 //	 */

@@ -14,7 +14,10 @@ PAGE_ERROR_MESSAGE
 	Une erreur est survenue, l'équipe de développement en a été avertie.<br />
 	Merci de bien vouloir revenir plus tard.
 
-### Controller: Sign
 
 BAD_USER
-    Vérifiez l'identifiant et/ou le mot de passe saisie
+  Vérifiez l'identifiant et/ou le mot de passe saisie
+BAD_ASSOCE
+  L'association que vous cherchez n'existe pas ou plus!
+BAD_POSt
+  La publication que vous cherchez n'existe pas ou plus!    

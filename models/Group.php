@@ -65,6 +65,7 @@ class Group_Model extends Model {
 		foreach($groups as &$group){
 			$group['avatar_url'] = self::getAvatarURL((int) $group['id'], true);
 			$group['avatar_big_url'] = self::getAvatarURL((int) $group['id']);
+      $group['description'] = Text::inHTML($group['description']);
 		}
 		
 		Cache::write('groups', $groups, 12*3600);
